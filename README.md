@@ -1,5 +1,5 @@
 # name-finder
-Sorts a list of strings by the similarity of the search value
+Sorts a list of strings by the similarity of the search value and filter with it
 
 ## I will help if you have any difficulty =)
 Contact me by [github:heyderpd](https://github.com/heyderpd). I'll be glad to help you.
