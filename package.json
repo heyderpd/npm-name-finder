@@ -1,6 +1,6 @@
 {
   "name": "name-finder",
-  "version": "0.1.0",
+  "version": "0.8.0",
   "description": "name finder with regex and rank of similarity",
   "main": "dist/main.js",
   "scripts": {

@@ -19,7 +19,12 @@ const list = [
 
 const listSortByRank = rank('Jôse Sìlveira', list)
 /*
-listSortByRank =
+listSortByRank = [
+  "Jôse Sìlveira",
+  "Jose Silveira",
+  "José Sìlvéîrã",
+  "Jose da Silva"
+]
 */
 ```
 
@@ -27,7 +32,12 @@ listSortByRank =
 ```javascript
 const listOfNameAndRanks = match('Jôse Sìlveira', list)
 /*
-listOfNameAndRanks =
+listOfNameAndRanks = [
+  { value: 'Jose da Silva', rank: 0.25 },
+  { value: 'José Sìlvéîrã', rank: 0.583 },
+  { value: 'Jose Silveira', rank: 0.833 },
+  { value: 'Jôse Sìlveira', rank: 1 }
+]
 */
 ```
 
@@ -35,6 +45,6 @@ listOfNameAndRanks =
 ```javascript
 const pattern = regexName(what)
 /*
-pattern =
+pattern = /(J[oóòõô]s[eéèẽê])\s+(S[iíìĩî]lv[eéèẽê][iíìĩî]r[aáàãâ])?/i
 */
 ```
