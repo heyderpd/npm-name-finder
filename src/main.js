@@ -1,4 +1,4 @@
-import { isEssential, isArray } from 'pytils'
+import { isEssential } from 'pytils'
 
 const dict = [
   '[aáàãâ]',
@@ -10,7 +10,9 @@ const dict = [
 
 const findKey = args => {
   args.splice(-2)
-  const key = args.reduce((p,n,k) => n?k:p) -1
+  const key = args
+    .reduce(
+      (p, n, k) => n ? k : p) -1
   return key >= 0
     ? dict[key]
     : args[0]
