@@ -1,5 +1,5 @@
 # name-finder
-name finder with regex and rank of similarity
+Sorts a list of strings by the similarity of the search value
 
 ## I will help if you have any difficulty =)
 Contact me by [github:heyderpd](https://github.com/heyderpd). I'll be glad to help you.

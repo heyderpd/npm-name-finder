@@ -1,7 +1,7 @@
 {
   "name": "name-finder",
-  "version": "0.8.1",
-  "description": "name finder with regex and rank of similarity",
+  "version": "0.8.2",
+  "description": "Sorts a list of strings by the similarity of the search value",
   "main": "dist/main.js",
   "scripts": {
     "transpile": "rm -rf dist/ && babel src/ --out-dir dist/",
