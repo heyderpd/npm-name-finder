@@ -1,4 +1,4 @@
-import { isEssential } from 'pytils'
+import { isEssential, isObject, path } from 'pytils'
 
 const dict = [
   '[aáàãâ]',
@@ -47,8 +47,8 @@ export const regexName = (fullName, retRegex = true) => {
     .map(n => replacer(n))
     .reduce(
       (p, n, k) => k === 0
-        ? `(${n})`
-        : `${p}\\s+(${n})?`, 0)
+        ? `(${n})?`
+        : `${p}(?:\\s+)(${n})?`, 0)
   return retRegex
     ? RegExp(fullName, 'i')
     : fullName
@@ -85,25 +85,29 @@ export const match = (fullName, list) => {
   const orignal = fullName.split(/\s+/)
   const max = _pattern.match(/\(/g).length
   const pattern = RegExp(_pattern, 'i')
+  let match
 
   return list
     .map(item => {
-      let match
-      if (match = pattern.exec(item)) {
+      const name = isObject(item) ? path(['name'], item) : item
+      if (match = pattern.exec(name)) {
         const perc = orignal
           .map(
-            (name, k) => ({
-              s: compareStrings(name, match[k+1]),
-              l: name.length
+            (sub, k) => ({
+              s: compareStrings(sub, match[k+1]),
+              l: sub.length
             }))
           .reduce(
             (p, n) => ({
               s: p.s +n.s,
               l: p.l +n.l
             }))
-        return {
-          value: item,
-          rank:  Math.floor(perc.s /perc.l *1000) /1000
+        const rank = Math.floor(perc.s /perc.l *1000) /1000
+        if (rank > 0) {
+          return {
+            value: item,
+            rank
+          }
         }
       }
     })
@@ -120,7 +124,7 @@ const _sort = get => (_a, _b) => {
       : 0)
 }
 
-const byRank = _sort(n => n.rank)
+const byRank = _sort(path(['rank']))
 
 export const rank = (fullName, list) => match(fullName, list)
   .sort(byRank)

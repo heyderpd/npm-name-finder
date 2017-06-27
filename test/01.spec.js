@@ -17,7 +17,7 @@ describe('name-finder', () => {
     const pattern = regexName(what)
     assert.equal(
       pattern,
-      '/(J[oóòõô]s[eéèẽê])\\s+(S[iíìĩî]lv[eéèẽê][iíìĩî]r[aáàãâ])?/i')
+      '/(J[oóòõô]s[eéèẽê])?(?:\\s+)(S[iíìĩî]lv[eéèẽê][iíìĩî]r[aáàãâ])?/i')
   })
 
   it('match', () => {

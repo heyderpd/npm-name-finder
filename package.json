@@ -1,6 +1,6 @@
 {
   "name": "name-finder",
-  "version": "0.8.9",
+  "version": "0.8.10",
   "description": "Sorts a list of strings by the similarity of the search value and filter with it",
   "main": "dist/main.js",
   "scripts": {
@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/heyderpd/npm-name-finder#readme",
   "dependencies": {
-    "pytils": "^1.32.2"
+    "pytils": "^1.35.2"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
