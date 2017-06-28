@@ -1,14 +1,23 @@
 import { isEssential, isObject, path } from 'pytils'
 
+const illegalChars = /[{}()\[\]:=!\\$^?*+,|-]+/gim
+
+const removeIllegalChars = word => word.replace(illegalChars, '')
+
+const spaces = /\s+/gim
+
+const singleSpaces = word => word.replace(spaces, ' ')
+
 const dict = [
-  '[aáàãâ]',
-  '[eéèẽê]',
-  '[iíìĩî]',
-  '[oóòõô]',
-  '[uúùũû]',
-  '[yýỳŷ]',
-  '[wẃẁŵ]',
-  '[cç]'
+  'aáàãâä',
+  'eéèẽêë',
+  'iíìĩîï',
+  'oóòõôö',
+  'uúùũûü',
+  'yýỳŷÿ',
+  'wẃẁŵẅ',
+  'cç',
+  'nñńǹ'
 ]
 
 const findKey = args => {
@@ -27,10 +36,8 @@ const replaceDict = function () {
     : findKey(Array.from(arguments))
 }
 
-const createObj = (word, replaced) => ([ word, replaced ])
-
 const initReplacer = () => {
-  const exp = `(${dict.join(")|(")})`
+  const exp = `([${ dict.join("])|([") }])`
   if (exp.length > 2) {
     const rgx = RegExp(exp, 'gi')
     return word => word.replace(rgx, replaceDict)
@@ -41,69 +48,53 @@ const initReplacer = () => {
 
 const replacer = initReplacer()
 
-export const regexName = (fullName, retRegex = true) => {
-  fullName = fullName
-    .split(/\s+/)
+export const regexName = (name, retRegex = true) => {
+  const ref = singleSpaces(removeIllegalChars(name))
+  const pattern = ref
+    .split('')
+    .map(n => `(?:[^${n}]*([${n}]))?`)
     .map(n => replacer(n))
-    .reduce(
-      (p, n, k) => k === 0
-        ? `(${n})?`
-        : `${p}(?:\\s+)(${n})?`, 0)
+    .join('')
   return retRegex
-    ? RegExp(fullName, 'i')
-    : fullName
+    ? { ref, pattern: RegExp(pattern, 'i') }
+    : pattern
 }
 
-const clearAndCount = match => match
+const clear = match => match
   .slice(1, match.length)
-  .filter(Boolean)
-  .length
 
-const compareStrings = (ref, test) => {
-  if (test) {
-    const pattern = RegExp(
-      ref
-        .split('')
-        .reduce(
-          (p, n) => `${p}(?:(${n})|.|)`, ''),
-      'i')
-    let match
-    if (match = pattern.exec(test)) {
-      return clearAndCount(match)
-    }
-  }
-  return 0
+const compareChars = (pattern, test) => {
+  return test
+    ? (pattern.exec(test) !== null
+      ? 1
+      : 0.5)
+    : 0
 }
+
+const getCharPattern = chars => chars
+  .split('')
+  .map(n => RegExp(`${n}`, 'i'))
 
 export const match = (fullName, list) => {
   isEssential([
     { fullName, t: 'string' },
     { list, t: 'array' }
   ])
-
-  const _pattern = regexName(fullName, false)
-  const orignal = fullName.split(/\s+/)
-  const max = _pattern.match(/\(/g).length
-  const pattern = RegExp(_pattern, 'i')
+  const { ref, pattern } = regexName(fullName)
+  const charPattern = getCharPattern(ref)
   let match
-
   return list
     .map(item => {
       const name = isObject(item) ? path(['name'], item) : item
       if (match = pattern.exec(name)) {
-        const perc = orignal
+        const equality = clear(match)
           .map(
-            (sub, k) => ({
-              s: compareStrings(sub, match[k+1]),
-              l: sub.length
-            }))
+            (char, k) => compareChars(charPattern[k], char))
           .reduce(
-            (p, n) => ({
-              s: p.s +n.s,
-              l: p.l +n.l
-            }))
-        const rank = Math.floor(perc.s /perc.l *1000) /1000
-        if (rank > 0) {
+            (p, n) => p +n, 0) /ref.length *0.6
+        if (equality > 0) {
+          const length = ref.length /name.length *0.4
+          const rank = Math.floor((equality +length) *1000) /1000
           return {
             value: item,
             rank
