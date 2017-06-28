@@ -91,9 +91,9 @@ export const match = (fullName, list) => {
           .map(
             (char, k) => compareChars(charPattern[k], char))
           .reduce(
-            (p, n) => p +n, 0) /ref.length *0.6
+            (p, n) => p +n, 0) /ref.length *0.9
         if (equality > 0) {
-          const length = ref.length /name.length *0.4
+          const length = ref.length /name.length *0.1
           const rank = Math.floor((equality +length) *1000) /1000
           return {
             value: item,

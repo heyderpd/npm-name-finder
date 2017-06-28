@@ -23,8 +23,13 @@ listSortByRank = [
   "Jôse Sìlveira",
   "Jose Silveira",
   "José Sìlvéîrã",
-  "Jose da Silva"
+  "Jose da Silva",
+  "John Lennon"
 ]
+
+Match chars:
+[J][o]hn L[e]nnon
+[J][o][s][e][ ]da [S][i][l][v][a]
 */
 ```
 
@@ -33,9 +38,10 @@ listSortByRank = [
 const listOfNameAndRanks = match('Jôse Sìlveira', list)
 /*
 listOfNameAndRanks = [
-  { value: 'Jose da Silva', rank: 0.25 },
-  { value: 'José Sìlvéîrã', rank: 0.583 },
-  { value: 'Jose Silveira', rank: 0.833 },
+  { value: 'John Lennon',   rank: 0.291 },
+  { value: 'Jose da Silva', rank: 0.723 },
+  { value: 'José Sìlvéîrã', rank: 0.826 },
+  { value: 'Jose Silveira', rank: 0.93 },
   { value: 'Jôse Sìlveira', rank: 1 }
 ]
 */
@@ -43,8 +49,8 @@ listOfNameAndRanks = [
 
 ## Example of regexName:
 ```javascript
-const pattern = regexName(what)
+const pattern = regexName(what).pattern
 /*
-pattern = /(J[oóòõô]s[eéèẽê])\s+(S[iíìĩî]lv[eéèẽê][iíìĩî]r[aáàãâ])?/i
+pattern = /(?:[^J]*([J]))?(?:[^oóòõôö]*([oóòõôö]))?(?:[^s]*([s]))?(?:[^eéèẽêë]*([eéèẽêë]))?(?:[^ ]*([ ]))?(?:[^S]*([S]))?(?:[^iíìĩîï]*([iíìĩîï]))?(?:[^l]*([l]))?(?:[^v]*([v]))?(?:[^eéèẽêë]*([eéèẽêë]))?(?:[^iíìĩîï]*([iíìĩîï]))?(?:[^r]*([r]))?(?:[^aáàãâä]*([aáàãâä]))?/i
 */
 ```
