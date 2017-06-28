@@ -1,12 +1,4 @@
-import { isEssential, isObject, path } from 'pytils'
-
-const illegalChars = /[{}()\[\]:=!\\$^?*+,|-]+/gim
-
-const removeIllegalChars = word => word.replace(illegalChars, '')
-
-const spaces = /\s+/gim
-
-const singleSpaces = word => word.replace(spaces, ' ')
+import { isEssential, isObject, path, compose } from 'pytils'
 
 const dict = [
   'aáàãâä',
@@ -48,8 +40,21 @@ const initReplacer = () => {
 
 const replacer = initReplacer()
 
-export const regexName = (name, retRegex = true) => {
-  const ref = singleSpaces(removeIllegalChars(name))
+const illegalChars = /[{}():=!$^?*+,|#\-\[\]\.\\]+/gim
+
+const removeIllegalChars = word => word.replace(illegalChars, '')
+
+const spaces = /\s+/gim
+
+const singleSpaces = word => word.replace(spaces, ' ')
+
+export const regexName = (name, retRegex = true, testInput = false) => {
+  testInput && isEssential([{ name, t: 'string' }])
+
+  const ref = compose(
+    singleSpaces,
+    removeIllegalChars
+  )(name)
   const pattern = ref
     .split('')
     .map(n => `(?:[^${n}]*([${n}]))?`)
@@ -75,29 +80,33 @@ const getCharPattern = chars => chars
   .split('')
   .map(n => RegExp(`${n}`, 'i'))
 
-export const match = (fullName, list) => {
+export const match = (fullName, list, getMatch = true) => {
   isEssential([
     { fullName, t: 'string' },
     { list, t: 'array' }
   ])
-  const { ref, pattern } = regexName(fullName)
+  const { ref, pattern } = regexName(fullName, true, true)
   const charPattern = getCharPattern(ref)
   let match
   return list
     .map(item => {
       const name = isObject(item) ? path(['name'], item) : item
       if (match = pattern.exec(name)) {
-        const equality = clear(match)
+        match = clear(match)
+        const equality = match
           .map(
             (char, k) => compareChars(charPattern[k], char))
           .reduce(
             (p, n) => p +n, 0) /ref.length *0.9
         if (equality > 0) {
           const length = ref.length /name.length *0.1
-          const rank = Math.floor((equality +length) *1000) /1000
+          const rank = Math.floor((equality +length) *10000) /100
           return {
             value: item,
-            rank
+            rank,
+            match: getMatch
+              ? match.map(n => Boolean(n) ? n : '*').join('')
+              : false
           }
         }
       }
@@ -117,6 +126,6 @@ const _sort = get => (_a, _b) => {
 
 const byRank = _sort(path(['rank']))
 
-export const rank = (fullName, list) => match(fullName, list)
+export const rank = (fullName, list) => match(fullName, list, false)
   .sort(byRank)
   .map(n => n.value)

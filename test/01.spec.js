@@ -4,13 +4,13 @@ import { regexName, match, rank } from '../src/main'
 
 const list = [
   'John Lennon',
-  'Jose da Silva',
   'José Sìlvéîrã',
+  'Jose da Silva',
   'Jose Silveira',
   'Jôse Sìlveira'
 ]
 
-const what = 'Jôse  Sìlveira'
+const what = 'Jô-se  (Sìlve!ir#a'
 
 describe('name-finder', () => {
   it('regexName', () => {
@@ -23,11 +23,11 @@ describe('name-finder', () => {
   it('match', () => {
     const listOfNameAndRanks = match(what, list)
     assert.deepEqual(listOfNameAndRanks, [
-      { value: 'John Lennon',   rank: 0.291 },
-      { value: 'Jose da Silva', rank: 0.723 },
-      { value: 'José Sìlvéîrã', rank: 0.826 },
-      { value: 'Jose Silveira', rank: 0.93 },
-      { value: 'Jôse Sìlveira', rank: 1 }
+      { value: 'John Lennon',   match: "Jo*e*********", rank: 29.12 },
+      { value: 'José Sìlvéîrã', match: "José Sìlvéîrã", rank: 82.69 },
+      { value: 'Jose da Silva', match: "Jose Silv***a", rank: 72.3  },
+      { value: 'Jose Silveira', match: "Jose Silveira", rank: 93.07 },
+      { value: 'Jôse Sìlveira', match: "Jôse Sìlveira", rank: 100   }
     ])
   })
 
@@ -39,6 +39,52 @@ describe('name-finder', () => {
       "José Sìlvéîrã",
       "Jose da Silva",
       "John Lennon"
+    ])
+  })
+})
+
+const a = [1, 2, 3]
+const f = x => x
+const o = {}
+
+const listObj = [
+  { name: 'John Lennon',   things: [1,2,3] },
+  { name: 'José Sìlvéîrã', xyz: '123' },
+  { name: 'Jose da Silva', r: 42 },
+  { name: 'Jose Silveira', o: o },
+  { name: 'Jôse Sìlveira', f: f }
+]
+
+describe('name-finder with obj', () => {
+  it('match', () => {
+    const listOfNameAndRanks = match(what, listObj)
+    assert.deepEqual(listOfNameAndRanks, [
+      { value: { name: 'John Lennon', things: a },
+        rank: 29.12,
+        match: 'Jo*e*********' },
+      { value: { name: 'José Sìlvéîrã', xyz: '123' },
+        rank: 82.69,
+        match: 'José Sìlvéîrã' },
+      { value: { name: 'Jose da Silva', r: 42 },
+        rank: 72.3,
+        match: 'Jose Silv***a' },
+      { value: { name: 'Jose Silveira', o: o },
+        rank: 93.07,
+        match: 'Jose Silveira' },
+      { value: { name: 'Jôse Sìlveira', f: f },
+        rank: 100,
+        match: 'Jôse Sìlveira' }
+    ])
+  })
+
+  it('rank', () => {
+    const listSortByRank = rank(what, listObj)
+    assert.deepEqual(listSortByRank, [
+      { name: 'Jôse Sìlveira', f: f },
+      { name: 'Jose Silveira', o: o },
+      { name: 'José Sìlvéîrã', xyz: '123' },
+      { name: 'Jose da Silva', r: 42 },
+      { name: 'John Lennon', things: a }
     ])
   })
 })
