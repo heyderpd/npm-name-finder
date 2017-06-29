@@ -1,6 +1,6 @@
 {
   "name": "name-finder",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Sorts a list of strings by the similarity of the search value and filter with it",
   "main": "dist/main.js",
   "scripts": {

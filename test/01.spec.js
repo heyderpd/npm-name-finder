@@ -1,6 +1,6 @@
 const assert = require('assert')
 
-import { regexName, match, rank } from '../src/main'
+import { regexName, match, rank } from '../dist/main'
 
 const list = [
   'John Lennon',
