@@ -55,6 +55,14 @@ const listObj = [
   { name: 'Jôse Sìlveira', f: f }
 ]
 
+const deepListObj = [
+  { full: { name: 'Jôse Sìlveira' }, f: f },
+  { full: { name: 'Jose Silveira' }, o: o },
+  { full: { name: 'José Sìlvéîrã' }, xyz: '123' },
+  { full: { name: 'Jose da Silva' }, r: 42 },
+  { full: { name: 'John Lennon' }, things: a }
+]
+
 describe('name-finder with obj', () => {
   it('match', () => {
     const listOfNameAndRanks = match(what, listObj)
@@ -85,6 +93,26 @@ describe('name-finder with obj', () => {
       { name: 'José Sìlvéîrã', xyz: '123' },
       { name: 'Jose da Silva', r: 42 },
       { name: 'John Lennon', things: a }
+    ])
+  })
+
+  it('rank with path', () => {
+    const listSortByRank = rank(what, deepListObj, ['full', 'name'])
+    assert.deepEqual(listSortByRank, [
+      { full: { name: 'Jôse Sìlveira' }, f: f },
+      { full: { name: 'Jose Silveira' }, o: o },
+      { full: { name: 'José Sìlvéîrã' }, xyz: '123' },
+      { full: { name: 'Jose da Silva' }, r: 42 },
+      { full: { name: 'John Lennon' }, things: a }
+    ])
+  })
+
+  it('rank with path and limit', () => {
+    const listSortByRank = rank(what, deepListObj, ['full', 'name'], 80)
+    assert.deepEqual(listSortByRank, [
+      { full: { name: 'Jôse Sìlveira' }, f: f },
+      { full: { name: 'Jose Silveira' }, o: o },
+      { full: { name: 'José Sìlvéîrã' }, xyz: '123' }
     ])
   })
 })

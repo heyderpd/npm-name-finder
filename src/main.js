@@ -80,7 +80,7 @@ const getCharPattern = chars => chars
   .split('')
   .map(n => RegExp(`${n}`, 'i'))
 
-export const match = (fullName, list, getMatch = true) => {
+export const match = (fullName, list, getMatch = true, propPath = ['name']) => {
   isEssential([
     { fullName, t: 'string' },
     { list, t: 'array' }
@@ -90,7 +90,7 @@ export const match = (fullName, list, getMatch = true) => {
   let match
   return list
     .map(item => {
-      const name = isObject(item) ? path(['name'], item) : item
+      const name = isObject(item) ? path(propPath, item) : item
       if (match = pattern.exec(name)) {
         match = clear(match)
         const equality = match
@@ -126,6 +126,7 @@ const _sort = get => (_a, _b) => {
 
 const byRank = _sort(path(['rank']))
 
-export const rank = (fullName, list) => match(fullName, list, false)
+export const rank = (fullName, list, propPath = ['name'], limit = 0) => match(fullName, list, false, propPath)
+  .filter(item => path(['rank'], item) >= limit)
   .sort(byRank)
   .map(n => n.value)
