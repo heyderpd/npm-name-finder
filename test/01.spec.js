@@ -24,8 +24,8 @@ describe('name-finder', () => {
   it('match', () => {
     const listOfNameAndRanks = match(what, list)
     assert.deepEqual(listOfNameAndRanks, [
-      { value: 'José Sìlvéîrã', match: "José Sìlvéîrã", rank: 97.3 },
-      { value: 'Jose da Silva', match: "Jose Silv***a", rank: 58.53  },
+      { value: 'José Sìlvéîrã', match: "José Sìlvéîrã", rank: 97.3  },
+      { value: 'Jose da Silva', match: "Jose Silv***a", rank: 58.53 },
       { value: 'Jose Silveira', match: "Jose Silveira", rank: 98.92 },
       { value: 'Jôse Sìlveira', match: "Jôse Sìlveira", rank: 100   }
     ])

@@ -18,14 +18,16 @@ const list = [
   'Jôse Sìlveira'
 ]
 
-const listSortByRank = rank('Jôse Sìlveira', list)
+const listSortByRank = rank({
+  find: 'Jôse Sìlveira',
+  list
+})
 
 listSortByRank = [
   "Jôse Sìlveira",
   "Jose Silveira",
   "José Sìlvéîrã",
-  "Jose da Silva",
-  "John Lennon"
+  "Jose da Silva"
 ]
 
 /*
@@ -47,14 +49,17 @@ const list = [
   { name: 'Jôse Sìlveira', f: f }
 ]
 
-const listSortByRank = rank('Jôse Sìlveira', list)
+const listSortByRank = rank({
+  find: 'Jôse Sìlveira',
+  list,
+  propPath: ['deep', 'name']
+})
 
 listSortByRank = [
-  { name: 'Jôse Sìlveira', f: f },
-  { name: 'Jose Silveira', o: o },
-  { name: 'José Sìlvéîrã', xyz: '123' },
-  { name: 'Jose da Silva', r: 42 },
-  { name: 'John Lennon', things: a }
+  { deep: { name: 'Jôse Sìlveira', f: f }       },
+  { deep: { name: 'Jose Silveira', o: o }       },
+  { deep: { name: 'José Sìlvéîrã', xyz: '123' } },
+  { deep: { name: 'Jose da Silva', r: 42 }      }
 ]
 ```
 
@@ -63,10 +68,9 @@ listSortByRank = [
 const listOfNameAndRanks = match('Jôse Sìlveira', list)
 
 listOfNameAndRanks = [
-  { value: 'John Lennon',   match: "Jo*e*********", rank: 29.12 },
-  { value: 'José Sìlvéîrã', match: "José Sìlvéîrã", rank: 82.69 },
-  { value: 'Jose da Silva', match: "Jose Silv***a", rank: 72.3  },
-  { value: 'Jose Silveira', match: "Jose Silveira", rank: 93.07 },
+  { value: 'José Sìlvéîrã', match: "José Sìlvéîrã", rank: 97.3  },
+  { value: 'Jose da Silva', match: "Jose Silv***a", rank: 58.53 },
+  { value: 'Jose Silveira', match: "Jose Silveira", rank: 98.92 },
   { value: 'Jôse Sìlveira', match: "Jôse Sìlveira", rank: 100   }
 ]
 ```
@@ -75,5 +79,5 @@ listOfNameAndRanks = [
 ```javascript
 const pattern = regexName(what).pattern
 
-pattern = /(?:[^J]*([J]))?(?:[^oóòõôö]*([oóòõôö]))?(?:[^s]*([s]))?(?:[^eéèẽêë]*([eéèẽêë]))?(?:[^ ]*([ ]))?(?:[^S]*([S]))?(?:[^iíìĩîï]*([iíìĩîï]))?(?:[^l]*([l]))?(?:[^v]*([v]))?(?:[^eéèẽêë]*([eéèẽêë]))?(?:[^iíìĩîï]*([iíìĩîï]))?(?:[^r]*([r]))?(?:[^aáàãâä]*([aáàãâä]))?/i
+pattern = /(?:[^J]*([J]))?(?:[^oóòõôö]*([oóòõôö]))?(?:[^sśŝ]*([sśŝ]))?(?:[^eéèẽêë]*([eéèẽêë]))?(?:[^ ]*([ ]))?(?:[^sśŝ]*([sśŝ]))?(?:[^iíìĩîï]*([iíìĩîï]))?(?:[^lĺ]*([lĺ]))?(?:[^v]*([v]))?(?:[^eéèẽêë]*([eéèẽêë]))?(?:[^iíìĩîï]*([iíìĩîï]))?(?:[^rŕ]*([rŕ]))?(?:[^aáàãâä]*([aáàãâä]))?/i
 ```
