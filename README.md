@@ -24,16 +24,18 @@ const listSortByRank = rank({
 })
 
 listSortByRank = [
-  "Jôse Sìlveira",
-  "Jose Silveira",
-  "José Sìlvéîrã",
-  "Jose da Silva"
+  'Jôse Sìlveira',
+  'Jose Silveira',
+  'José Sìlvéîrã',
+  'Jose da Silva'
 ]
 
 /*
+Find:
+  [J][o][s][e][ ][S][i][l][v][a]
 Match chars:
-[J][o]hn L[e]nnon
-[J][o][s][e][ ]da [S][i][l][v][a]
+  [J][o]hn L[e]nnon
+  [J][o][s][e][ ]da [S][i][l][v][a]
 */
 ```
 
@@ -42,17 +44,18 @@ Match chars:
 import { rank } from 'name-finder'
 
 const list = [
-  { name: 'John Lennon',   things: [1,2,3] },
-  { name: 'José Sìlvéîrã', xyz: '123' },
-  { name: 'Jose da Silva', r: 42 },
-  { name: 'Jose Silveira', o: o },
-  { name: 'Jôse Sìlveira', f: f }
+  { deep: { name: 'John Lennon',   things: [1,2,3] }, },
+  { deep: { name: 'José Sìlvéîrã', xyz: '123' }, },
+  { deep: { name: 'Jose da Silva', r: 42 },      },
+  { deep: { name: 'Jose Silveira', o: o },       },
+  { deep: { name: 'Jôse Sìlveira', f: f }        }
 ]
 
 const listSortByRank = rank({
   find: 'Jôse Sìlveira',
   list,
-  propPath: ['deep', 'name']
+  propPath: ['deep', 'name'],
+  limit: 50
 })
 
 listSortByRank = [
@@ -68,10 +71,10 @@ listSortByRank = [
 const listOfNameAndRanks = match('Jôse Sìlveira', list)
 
 listOfNameAndRanks = [
-  { value: 'José Sìlvéîrã', match: "José Sìlvéîrã", rank: 97.3  },
-  { value: 'Jose da Silva', match: "Jose Silv***a", rank: 58.53 },
-  { value: 'Jose Silveira', match: "Jose Silveira", rank: 98.92 },
-  { value: 'Jôse Sìlveira', match: "Jôse Sìlveira", rank: 100   }
+  { value: 'José Sìlvéîrã', match: 'José Sìlvéîrã', rank: 97.3  },
+  { value: 'Jose da Silva', match: 'Jose Silv***a', rank: 58.53 },
+  { value: 'Jose Silveira', match: 'Jose Silveira', rank: 98.92 },
+  { value: 'Jôse Sìlveira', match: 'Jôse Sìlveira', rank: 100   }
 ]
 ```
 
